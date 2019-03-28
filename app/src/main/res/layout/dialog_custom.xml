@@ -5,6 +5,7 @@
         android:layout_height="match_parent">
 
     <EditText
+            android:maxLength="9"
             android:id="@+id/et_input"
             android:layout_width="300dp"
             android:layout_height="wrap_content"/>

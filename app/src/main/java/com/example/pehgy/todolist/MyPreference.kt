@@ -3,7 +3,7 @@ package com.example.pehgy.todolist
 import android.content.Context
 import android.content.SharedPreferences
 
-class MyPreference(var context: Context) {
+class  MyPreference(var context: Context) {
     var keysSize = 0 //key的數量，有幾個key
     var storeCount = 1 //key的增加
     var sharedPreferences: SharedPreferences

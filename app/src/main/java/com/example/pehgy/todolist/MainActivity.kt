@@ -1,13 +1,20 @@
 package com.example.pehgy.todolist
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.dialog_custom.view.*
+import kotlinx.android.synthetic.main.recycler_view.*
 
 class MainActivity : AppCompatActivity() {
     val data = ArrayList<Info>()
@@ -18,6 +25,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val toolBar = findViewById<View>(R.id.tool_bar) as Toolbar
+
+        setSupportActionBar(toolBar)
+
+
         mysp = MyPreference(this)
         myadapter = MainAdapter(this, data, this@MainActivity::addDeleteList)
 
@@ -40,9 +53,9 @@ class MainActivity : AppCompatActivity() {
                 val etinput = dialogView.et_input.text.toString()
 
                 if (etinput.length > 0) {
-
+                    //可在dialog_custom裡改變輸入字串的長度，maxLength = 字數(中文、數字和英文都相同)
                     mysp.save(input = etinput)
-                    myadapter.updateList( mysp.readit())
+                    myadapter.updateList(mysp.readit())
                     // tv_show.text = data
 
 
@@ -53,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
                     //myadapter.updateList(newList)
                     //myadapter.infoList.add()//加入更多string在infoList
+
 
                 } else {
                     Toast.makeText(this, "請輸入文字", Toast.LENGTH_SHORT).show()
@@ -77,12 +91,22 @@ class MainActivity : AppCompatActivity() {
 //
 //        }
 
+//        btn_trash.setOnClickListener {
+//            val builder = AlertDialog.Builder(this)
+//            builder.setTitle("警告")
+//            builder.setMessage("確定要刪除嗎??")
+//            builder.setPositiveButton("Yes", { dialogInterface: DialogInterface, i: Int -> })
+//            builder.setNegativeButton("no", { dialogInterface: DialogInterface, i: Int -> })
+//            builder.show()
+//
+//        }
+
 
         //刪除項目
         btn_delete.setOnClickListener {
-
+            choice.visibility = View.VISIBLE
             mysp.RemoveInfo(RemoveList = deleteList)
-            myadapter.updateList( mysp.readit())
+            myadapter.updateList(mysp.readit())
             println("**${mysp.RemoveInfo(RemoveList = deleteList)}")
 
         }
@@ -100,6 +124,28 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val id = item?.itemId
+   //     val click = R.id.choice
+
+        when (id) {
+
+            R.id.check ->  Toast.makeText(this,"123",Toast.LENGTH_SHORT).show()
+
+
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
 
     fun addDeleteList(key: String, isCheck: Boolean) {
 
